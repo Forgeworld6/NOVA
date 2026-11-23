@@ -1,35 +1,37 @@
 # NOVA
 
-AI-powered automation agent and intelligent workspace.
+NOVA is an AI assistant workspace designed for clear conversations and, in later milestones, safe tool-assisted automation.
 
-## Project structure
+## Current implementation
 
-- `frontend/` — React + Vite dashboard.
-- `backend/` — Node.js + Express API.
-- `backend/.env.example` — environment variable template.
-
-## Requirements
-
-- Node.js 20 or newer
-- npm
+- Responsive Apple-inspired light interface for desktop and mobile.
+- React + Vite frontend.
+- Node.js + Express backend.
+- Gemini AI chat endpoint with short conversation context.
+- Backend health status that distinguishes server availability from AI configuration.
+- Server-side API key handling; no secret belongs in the frontend or repository.
 
 ## Run locally
 
-Open two terminals.
+Requirements: Node.js 20+ and npm.
 
-### 1. Start the backend
+### Backend
 
 ```bash
 cd backend
 npm install
 cp .env.example .env
+```
+
+Set `GEMINI_API_KEY` in the private `backend/.env` file, then run:
+
+```bash
 npm run dev
 ```
 
-Add your Gemini API key to `backend/.env` as `GEMINI_API_KEY=your_key_here`.
-Never put API keys in frontend files or commit a real `.env` file.
+### Frontend
 
-### 2. Start the frontend
+In a second terminal:
 
 ```bash
 cd frontend
@@ -37,17 +39,22 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite (normally http://localhost:5173).
+Open the local URL printed by Vite (normally http://localhost:5173). The Vite development server proxies `/api` requests to port 3001.
 
-The frontend proxies `/api` requests to the backend at `http://localhost:3001`.
+## Environment variables
 
-## Current status
+- `GEMINI_API_KEY`: private provider key, required for AI replies.
+- `GEMINI_MODEL`: optional model name; defaults to `gemini-2.5-flash`.
+- `PORT`: optional backend port; defaults to `3001`.
 
-- Responsive dashboard and chat interface: implemented.
-- Express backend and health endpoint: implemented.
-- Gemini chat endpoint: implemented; requires a private API key in the backend environment.
-- Agent tool calling, persistent memory, file processing and workflow automation: planned for later milestones.
+Never commit a real `.env` file, paste API keys into chat, or place keys in frontend code. Use a private environment-variable setting on the backend host when deploying.
 
-## Security
+## Honest feature status
 
-Keep secrets in environment variables. Do not commit `.env` files, private keys, passwords, or personal data. Review and approve consequential actions before an agent executes them.
+**Working in this milestone:** responsive workspace UI, health endpoint, Gemini-powered chat when a valid server key is configured, and recent conversation context sent with each request.
+
+**Not connected yet:** live web search, file uploads/reading, persistent memory, user accounts, task history, third-party integrations, and automatic workflows. The interface marks these as upcoming rather than pretending they are active.
+
+## Safety and reliability
+
+NOVA must not claim an external action happened unless a connected integration confirms it. Add explicit approval for consequential actions, validate every tool input, apply usage limits, and keep secrets server-side before enabling automation.
